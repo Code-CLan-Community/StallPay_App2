@@ -1,0 +1,48 @@
+<script>
+    // Function to calculate the total bill
+    function calculateBill() {
+        var corianderQty = parseInt(document.getElementById("corianderQty").value) || 0;
+        var cuminQty = parseInt(document.getElementById("cuminQty").value) || 0;
+        var total = (corianderQty * 15) + (cuminQty * 20);
+        document.getElementById("billAmount").innerText = "Final Bill Amount: " + total + " Rs";
+        return total;
+    }
+
+    // Function to save order details and initiate UPI payment
+    function makePayment() {
+        var userName = localStorage.getItem("customerName") || "Guest";
+        var corianderQty = parseInt(document.getElementById("corianderQty").value) || 0;
+        var cuminQty = parseInt(document.getElementById("cuminQty").value) || 0;
+        var totalAmount = calculateBill();
+
+        if (totalAmount <= 0) {
+            alert("Please select at least one item to proceed with payment.");
+            return;
+        }
+
+        var orderData = {
+            name: userName,
+            corianderQty: corianderQty,
+            cuminQty: cuminQty,
+            totalAmount: totalAmount
+        };
+
+        // Send order data to the backend
+        fetch("http://localhost:3000/save-order", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(orderData)
+        }).then(response => response.json())
+          .then(data => {
+              console.log("Order Saved:", data);
+
+              // After saving order, redirect to UPI payment
+              var upiID = "your-upi-id@upi"; // Replace with actual UPI ID
+              var paymentURL = `upi://pay?pa=${upiID}&pn=Sip n Savor Milk&tn=ButterMilk Order&am=${totalAmount}&cu=INR`;
+              window.location.href = paymentURL;
+          })
+          .catch(error => console.error("Error saving order:", error));
+    }
+</script>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StallPay</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+            transition: transform 0.3s;
+        }
+        .container:hover {
+            transform: scale(1.05);
+        }
+        h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+        p {
+            color: #666;
+            font-size: 18px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: center;
+        }
+        .btn {
+            background: #ff6f61;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            margin-top: 20px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #e05a4f;
+        }
+    </style>
+    <script>
+        function greetUser() {
+            var userName = document.getElementById("customerName").value;
+            if (userName.trim() !== "") {
+                localStorage.setItem("customerName", userName); // Store user name
+                window.location.href = "order.html"; // Redirect to order selection page
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to StallPay</h1>
+        <p>Milk Lover! <br><br>What's your sweet name?</p>
+        <input type="text" id="customerName" placeholder="Just your first name">
+        <button class="btn" onclick="greetUser()">Ready to Order</button>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var userName = localStorage.getItem("customerName");
+            if (userName) {
+                document.querySelector("h1").innerText ="Welcome to StallPay";
+            }
+        });
+    </script>
+</body>
+</html>
